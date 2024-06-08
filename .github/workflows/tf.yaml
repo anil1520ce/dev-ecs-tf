@@ -21,7 +21,7 @@ jobs:
             set +o allexport
           fi
 
-       - name: Debug Environment Variables
+      - name: Debug Environment Variables
         run: env | grep -E 'STATE_BUCKET_NAME|STATE_KEY|STATE_BUCKET_REGION|LOCK_TABLE_NAME|ECR_REPOSITORY_URL|SUBNET_IDS|SECURITY_GROUP_IDS|AWS_DEFAULT_REGION'
 
       - name: Setup Terraform
