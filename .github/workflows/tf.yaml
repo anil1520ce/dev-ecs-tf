@@ -21,13 +21,16 @@ jobs:
             set +o allexport
           fi
 
+       - name: Debug Environment Variables
+        run: env | grep -E 'STATE_BUCKET_NAME|STATE_KEY|STATE_BUCKET_REGION|LOCK_TABLE_NAME|ECR_REPOSITORY_URL|SUBNET_IDS|SECURITY_GROUP_IDS|AWS_DEFAULT_REGION'
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.0
 
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=$STATE_BUCKET_NAME" -backend-config="key=$STATE_KEY" -backend-config="region=$STATE_BUCKET_REGION" -backend-config="dynamodb_table=$LOCK_TABLE_NAME" -reconfigure -input=false -backend=true -backend-config="region=ap-south-1"
+        run: terraform init -backend-config="bucket=$STATE_BUCKET_NAME" -backend-config="key=$STATE_KEY" -backend-config="region=$STATE_BUCKET_REGION" -backend-config="dynamodb_table=$LOCK_TABLE_NAME" -reconfigure -input=false -backend=true -backend-config="region=$AWS_DEFAULT_REGION"
 
       - name: Terraform Plan
         run: terraform plan -var="ecr_repository_url=$ECR_REPOSITORY_URL" -var="subnet_ids=$SUBNET_IDS" -var="security_group_ids=$SECURITY_GROUP_IDS" -var="aws_region=$AWS_DEFAULT_REGION"
