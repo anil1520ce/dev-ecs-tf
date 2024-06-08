@@ -16,7 +16,9 @@ jobs:
       - name: Load Environment Variables
         run: |
           if [ -f /home/ubuntu/dev/env/.env ]; then
-            export $(cat /home/ubuntu/dev/env/.env | xargs)
+            set -o allexport
+            source /home/ubuntu/dev/env/.env
+            set +o allexport
           fi
 
       - name: Setup Terraform
